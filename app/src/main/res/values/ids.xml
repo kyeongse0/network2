@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ivPostImage" type="id" />
+    <item name="etPostContent" type="id" />
+    <item name="btnSelectImage" type="id" />
+    <item name="btnSubmitPost" type="id" />
+</resources>
