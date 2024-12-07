@@ -19,25 +19,25 @@ public class PostWorker extends Worker {
     @Override
     public Result doWork() {
         try {
-            // WorkManager에서 전달받은 데이터 가져오기
+            String postTitle = getInputData().getString("postTitle");
+            String postAuthor = getInputData().getString("postAuthor");
             String postContent = getInputData().getString("postContent");
             String imageUri = getInputData().getString("imageUri");
 
-            // 서버와 소켓 연결 및 데이터 전송
-            Socket socket = new Socket("172.30.1.23", 9999); // 서버 IP와 포트 설정
+            Socket socket = new Socket("172.30.1.23", 9999);
             PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 
-            if (postContent != null && imageUri != null) {
-                String message = "POST " + postContent + " [이미지 URI: " + imageUri + "]";
-                output.println(message); // 서버에 메시지 전송
+            String message = "POST " + postTitle + "::" + postAuthor + "::" + postContent;
+            if (imageUri != null) {
+                message += " [이미지 URI: " + imageUri + "]";
             }
 
-            socket.close(); // 소켓 연결 종료
-
-            return Result.success(); // 성공적으로 작업 완료 시 반환
+            output.println(message);
+            socket.close();
+            return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(); // 작업 실패 시 반환
+            return Result.failure();
         }
     }
 }

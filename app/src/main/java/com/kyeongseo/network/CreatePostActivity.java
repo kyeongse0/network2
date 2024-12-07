@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -24,27 +25,29 @@ public class CreatePostActivity extends AppCompatActivity {
     private ImageView ivPostImage; // 이미지 미리보기
     private Uri selectedImageUri; // 선택된 이미지 URI
 
+    private EditText etPostTitle; // 제목 입력 필드
+    private EditText etPostAuthor; // 작성자 입력 필드
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
 
+        etPostTitle = findViewById(R.id.etPostTitle); // 제목 입력 필드 연결
+        etPostAuthor = findViewById(R.id.etPostAuthor); // 작성자 입력 필드 연결
         etPostContent = findViewById(R.id.etPostContent);
         ivPostImage = findViewById(R.id.ivPostImage);
+
         Button btnSelectImage = findViewById(R.id.btnSelectImage);
         Button btnSubmitPost = findViewById(R.id.btnSubmitPost);
 
-        // 이미지 선택 버튼 클릭 이벤트
         btnSelectImage.setOnClickListener(v -> openImagePicker());
-
-        // 글 등록 버튼 클릭 이벤트
         btnSubmitPost.setOnClickListener(v -> submitPost());
     }
 
-    // 이미지 선택 창 열기
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST); // 이미지 선택 요청 실행
     }
 
     @Override
@@ -52,30 +55,34 @@ public class CreatePostActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
+            selectedImageUri = data.getData(); // 선택된 이미지 URI 저장
 
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
                 ivPostImage.setImageBitmap(bitmap); // 선택한 이미지를 미리보기로 표시
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(this, "이미지 로드에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // 게시글 서버로 전송
     private void submitPost() {
+        String postTitle = etPostTitle.getText().toString().trim();
+        String postAuthor = etPostAuthor.getText().toString().trim();
         String postContent = etPostContent.getText().toString().trim();
 
-        if (postContent.isEmpty() || selectedImageUri == null) {
-            // 글 내용 또는 이미지가 없을 경우 처리 (예: 토스트 메시지)
+        if (postTitle.isEmpty() || postAuthor.isEmpty() || postContent.isEmpty()) {
+            // 제목, 작성자 또는 내용이 비어 있을 경우 처리
+            Toast.makeText(this, "제목, 작성자, 내용을 모두 입력해주세요.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // WorkManager를 통해 서버로 게시글 전송 작업 실행
         Data inputData = new Data.Builder()
+                .putString("postTitle", postTitle)
+                .putString("postAuthor", postAuthor)
                 .putString("postContent", postContent)
-                .putString("imageUri", selectedImageUri.toString())
+                .putString("imageUri", selectedImageUri != null ? selectedImageUri.toString() : null)
                 .build();
 
         OneTimeWorkRequest postRequest = new OneTimeWorkRequest.Builder(PostWorker.class)
@@ -83,7 +90,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 .build();
 
         WorkManager.getInstance(this).enqueue(postRequest);
-
-        finish(); // 완료 후 액티비티 종료
+        finish();
     }
 }

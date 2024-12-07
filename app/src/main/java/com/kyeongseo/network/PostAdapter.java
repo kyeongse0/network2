@@ -42,7 +42,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
-        holder.postTextView.setText(post.getContent());
+
+        // 제목 설정
+        holder.postTitleTextView.setText(post.getTitle());
+
+        // 작성자 설정
+        holder.postAuthorTextView.setText("작성자: " + post.getAuthor());
+
+        // 내용 설정
+        holder.postContentTextView.setText(post.getContent());
+
 
         // 이미지 URI를 ImageView에 설정
         if (post.getImageUri() != null) {
@@ -60,13 +69,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     }
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
+
         ImageView postImageView;
-        TextView postTextView;
+        TextView postTitleTextView;
+        TextView postAuthorTextView;
+        TextView postContentTextView;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             postImageView = itemView.findViewById(R.id.postImageView);
-            postTextView = itemView.findViewById(R.id.postTextView);
+            postTitleTextView = itemView.findViewById(R.id.postTitleTextView);
+            postAuthorTextView = itemView.findViewById(R.id.postAuthorTextView);
+            postContentTextView = itemView.findViewById(R.id.postContentTextView);
         }
     }
 }

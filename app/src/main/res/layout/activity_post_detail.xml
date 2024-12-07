@@ -2,21 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
+    <!-- 게시글 제목 -->
     <TextView
-        android:id="@+id/tvPostDetailContent"
+        android:id="@+id/tvPostDetailTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp" />
 
+    <!-- 작성자 -->
+    <TextView
+        android:id="@+id/tvPostDetailAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#808080"
+        android:paddingBottom="8dp" />
+
+    <!-- 게시글 이미지 -->
     <ImageView
         android:id="@+id/ivPostDetailImage"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 
+    <!-- 게시글 내용 -->
+    <TextView
+        android:id="@+id/tvPostDetailContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingTop="8dp" />
+
+    <!-- 채팅하기 버튼 -->
     <Button
         android:id="@+id/btnChatWithAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="채팅하기" />
+        android:text="채팅하기"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

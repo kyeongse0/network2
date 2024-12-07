@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="16dp">
 
+    <!-- 게시글 이미지 -->
     <ImageView
         android:id="@+id/postImageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
-        android:background="#CCCCCC" />
+        android:src="@color/white" />
 
+    <!-- 게시글 제목 -->
     <TextView
-        android:id="@+id/postTextView"
-        android:layout_width="0dp"
+        android:id="@+id/postTitleTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingStart="8dp"
-        android:textSize="16sp" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingTop="8dp" />
+
+    <!-- 작성자 -->
+    <TextView
+        android:id="@+id/postAuthorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#808080" />
+
+    <!-- 게시글 내용 -->
+    <TextView
+        android:id="@+id/postContentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:paddingTop="8dp" />
 </LinearLayout>

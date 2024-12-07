@@ -35,10 +35,13 @@ public class BoardFragment extends Fragment {
         postRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         adapter = new PostAdapter(getContext(), posts, post -> {
-            // 게시글 클릭 시 상세보기로 이동
             Intent intent = new Intent(getContext(), PostDetailActivity.class);
+
+            intent.putExtra("postTitle", post.getTitle());
+            intent.putExtra("postAuthor", post.getAuthor());
             intent.putExtra("postContent", post.getContent());
             intent.putExtra("postImageUri", post.getImageUri());
+
             startActivity(intent);
         });
 
@@ -56,24 +59,27 @@ public class BoardFragment extends Fragment {
         return view;
     }
 
-    private void connectToServer() {
-        new Thread(() -> { // 네트워크 작업을 별도 스레드에서 실행
+
+    public void connectToServer() {
+        new Thread(() -> {
             try {
-                if (socket == null || socket.isClosed()) { // 소켓이 없거나 닫혀 있으면 새로 생성
-                    socket = new Socket("172.30.1.23", 9999); // 서버 IP와 포트 설정
+                if (socket == null || socket.isClosed()) {
+                    socket = new Socket("172.30.1.23", 9999);
                     output = new PrintWriter(socket.getOutputStream(), true);
                     input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
                     String message;
                     while ((message = input.readLine()) != null) {
-                        if (message.startsWith("새 게시글: ")) { // 새 게시글 알림 처리
-                            String[] parts = message.substring(7).split("::"); // "내용::이미지 URI" 형식으로 분리
-                            String content = parts[0];
-                            String imageUri = parts.length > 1 ? parts[1] : null;
+                        if (message.startsWith("새 게시글: ")) {
+                            String[] parts = message.substring(7).split("::");
+                            String title = parts[0];
+                            String author = parts[1];
+                            String content = parts[2];
+                            String imageUri = parts.length > 3 ? parts[3] : null;
 
                             getActivity().runOnUiThread(() -> {
-                                posts.add(new Post(content, imageUri)); // 게시글 추가
-                                adapter.notifyDataSetChanged(); // UI 업데이트
+                                posts.add(new Post(title, author, content, imageUri));
+                                adapter.notifyDataSetChanged();
                             });
                         }
                     }
