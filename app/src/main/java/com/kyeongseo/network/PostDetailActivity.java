@@ -22,7 +22,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private TextView tvPostDetailTitle;   // 글 제목
     private TextView tvPostDetailAuthor;  // 작성자
     private TextView tvPostDetailContent; // 글 내용
-    private ImageView ivPostDetailImage;  // 이미지
+
     private Button btnChatWithAuthor;     // 채팅 버튼
 
     @Override
@@ -33,7 +33,7 @@ public class PostDetailActivity extends AppCompatActivity {
         tvPostDetailTitle = findViewById(R.id.tvPostDetailTitle);
         tvPostDetailAuthor = findViewById(R.id.tvPostDetailAuthor);
         tvPostDetailContent = findViewById(R.id.tvPostDetailContent);
-        ivPostDetailImage = findViewById(R.id.ivPostDetailImage);
+
         btnChatWithAuthor = findViewById(R.id.btnChatWithAuthor);
 
         // 게시글 데이터 받기
@@ -42,7 +42,7 @@ public class PostDetailActivity extends AppCompatActivity {
         String postTitle = intent.getStringExtra("postTitle");       // 제목
         String postAuthor = intent.getStringExtra("postAuthor");     // 작성자
         String postContent = intent.getStringExtra("postContent");   // 내용
-        String postImageUri = intent.getStringExtra("postImageUri"); // 이미지 URI
+
 
         // 데이터 설정
         tvPostDetailTitle.setText(postTitle);
@@ -56,29 +56,7 @@ public class PostDetailActivity extends AppCompatActivity {
             startActivity(chatIntent);
         });
 
-        // 서버에서 이미지 가져오기
-        new Thread(() -> fetchImageFromServer("/path/to/image.jpg")).start(); // 이미지 경로 지정
-    }
-
-    private void fetchImageFromServer(String imagePath) {
-        try (Socket socket = new Socket("172.30.1.23", 9999)) {
-            OutputStream outputStream = socket.getOutputStream();
-            InputStream inputStream = new BufferedInputStream(socket.getInputStream());
-
-            // 서버에 이미지 요청 보내기
-            outputStream.write(("GET_IMAGE " + imagePath + "\n").getBytes());
-            outputStream.flush();
-
-            // 서버로부터 이미지 데이터 수신
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-            // UI에 이미지 표시
-            runOnUiThread(() -> ivPostDetailImage.setImageBitmap(bitmap));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
 
     }
+
 }

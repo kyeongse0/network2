@@ -4,6 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/create_post_title"
+        />
     <EditText
         android:id="@+id/etPostTitle"
         android:layout_width="match_parent"
@@ -19,26 +25,15 @@
     <EditText
         android:id="@+id/etPostContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="297dp"
         android:hint="글 내용을 입력하세요" />
 
-    <ImageView
-        android:id="@+id/ivPostImage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:background="#CCCCCC"
-        android:contentDescription="첨부된 이미지" />
 
-    <Button
-        android:id="@+id/btnSelectImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="이미지 선택" />
-
-    <Button
+    <ImageButton
         android:id="@+id/btnSubmitPost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="글 등록" />
+        android:layout_width="196dp"
+        android:layout_height="69dp"
+        android:layout_gravity="center"
+        android:background="@drawable/submit"
+        android:contentDescription="post_submit"/>
 </LinearLayout>

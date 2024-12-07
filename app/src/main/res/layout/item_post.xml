@@ -4,15 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
-
-    <!-- 게시글 이미지 -->
-    <ImageView
-        android:id="@+id/postImageView"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@color/white" />
-
+    
     <!-- 게시글 제목 -->
     <TextView
         android:id="@+id/postTitleTextView"

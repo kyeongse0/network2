@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/post_title"/>
 
     <!-- 게시글 제목 -->
     <TextView
@@ -23,13 +27,6 @@
         android:textColor="#808080"
         android:paddingBottom="8dp" />
 
-    <!-- 게시글 이미지 -->
-    <ImageView
-        android:id="@+id/ivPostDetailImage"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
 
     <!-- 게시글 내용 -->
     <TextView
@@ -44,6 +41,8 @@
         android:id="@+id/btnChatWithAuthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="채팅하기"
-        android:layout_marginTop="16dp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#63B170"
+        android:text="채팅하기" />
 </LinearLayout>

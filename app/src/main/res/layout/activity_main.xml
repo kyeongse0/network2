@@ -15,16 +15,22 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnBoard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="게시판" />
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/board"
+            android:contentDescription="board_buton"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btnChatList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="채팅방 목록" />
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:background="@drawable/chatting"
+            android:contentDescription="chat_button"/>
     </LinearLayout>
 </LinearLayout>

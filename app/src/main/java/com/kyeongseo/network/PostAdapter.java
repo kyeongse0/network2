@@ -53,12 +53,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postContentTextView.setText(post.getContent());
 
 
-        // 이미지 URI를 ImageView에 설정
-        if (post.getImageUri() != null) {
-            holder.postImageView.setImageURI(Uri.parse(post.getImageUri()));
-        } else {
-            holder.postImageView.setImageResource(android.R.color.darker_gray); // 기본 이미지
-        }
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(post)); // 클릭 이벤트 전달
     }
@@ -70,14 +64,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public static class PostViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView postImageView;
+
         TextView postTitleTextView;
         TextView postAuthorTextView;
         TextView postContentTextView;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-            postImageView = itemView.findViewById(R.id.postImageView);
+
             postTitleTextView = itemView.findViewById(R.id.postTitleTextView);
             postAuthorTextView = itemView.findViewById(R.id.postAuthorTextView);
             postContentTextView = itemView.findViewById(R.id.postContentTextView);

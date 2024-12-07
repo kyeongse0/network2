@@ -1,11 +1,13 @@
 package com.kyeongseo.network;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnBoard = findViewById(R.id.btnBoard);
-        Button btnChatList = findViewById(R.id.btnChatList);
+        ImageButton btnBoard = findViewById(R.id.btnBoard);
+        ImageButton btnChatList = findViewById(R.id.btnChatList);
 
         // 기본 화면은 게시판 Fragment
         loadFragment(new BoardFragment());

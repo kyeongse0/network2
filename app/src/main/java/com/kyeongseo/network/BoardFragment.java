@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,7 +48,7 @@ public class BoardFragment extends Fragment {
 
         postRecyclerView.setAdapter(adapter);
 
-        Button btnCreatePost = view.findViewById(R.id.btnCreatePost);
+        ImageButton btnCreatePost = view.findViewById(R.id.btnCreatePost);
 
         btnCreatePost.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), CreatePostActivity.class);

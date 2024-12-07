@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,7 +19,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private RecyclerView chatRecyclerView; // 메시지를 표시하는 RecyclerView
     private EditText etMessageInput; // 메시지 입력 필드
-    private Button btnSendMessage; // 메시지 전송 버튼
+    private ImageButton btnSendMessage; // 메시지 전송 버튼
 
     private ArrayList<ChatMessage> chatMessages; // 채팅 메시지 리스트
     private ChatAdapter chatAdapter; // RecyclerView 어댑터
