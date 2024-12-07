@@ -1,10 +1,10 @@
 package com.kyeongseo.network;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -24,7 +24,7 @@ public class ChatActivity extends AppCompatActivity {
     private ChatAdapter chatAdapter; // RecyclerView 어댑터
 
     private String chatPartner; // 채팅 상대 이름
-    private String clientId; // 현재 사용자 ID
+    private String clientId = "나"; // 현재 사용자 ID를 "나"로 설정
 
     private Socket socket; // 소켓 연결 객체
     private PrintWriter output; // 서버로 메시지 전송
@@ -44,15 +44,18 @@ public class ChatActivity extends AppCompatActivity {
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         chatRecyclerView.setAdapter(chatAdapter);
 
-        // 채팅 상대 정보 및 사용자 ID 가져오기
+        // 채팅 상대 정보 가져오기
         chatPartner = getIntent().getStringExtra("chatPartner");
-        clientId = getIntent().getStringExtra("clientId");
+        clientId = chatPartner != null ? chatPartner : "익명"; // clientId를 작성자로 설정 (없으면 "익명")
 
         connectToServer();
 
         btnSendMessage.setOnClickListener(v -> sendMessage());
     }
 
+    /**
+     * 서버에 연결하여 메시지를 수신
+     */
     private void connectToServer() {
         new Thread(() -> {
             try {
@@ -60,7 +63,7 @@ public class ChatActivity extends AppCompatActivity {
                 output = new PrintWriter(socket.getOutputStream(), true);
                 input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-                output.println(clientId); // 사용자 ID 전송
+                output.println(clientId); // 사용자 ID를 서버에 전송
 
                 String message;
                 while ((message = input.readLine()) != null) {
@@ -77,6 +80,9 @@ public class ChatActivity extends AppCompatActivity {
         }).start();
     }
 
+    /**
+     * 메시지를 서버로 전송
+     */
     private void sendMessage() {
         String messageText = etMessageInput.getText().toString().trim();
 

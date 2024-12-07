@@ -1,6 +1,8 @@
 package com.kyeongseo.network;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 
 public class PostDetailActivity extends AppCompatActivity {
 
@@ -42,16 +49,36 @@ public class PostDetailActivity extends AppCompatActivity {
         tvPostDetailAuthor.setText("작성자: " + postAuthor);
         tvPostDetailContent.setText(postContent);
 
-        if (postImageUri != null) {
-            ivPostDetailImage.setVisibility(View.VISIBLE); // 이미지가 있을 경우 표시
-            ivPostDetailImage.setImageURI(Uri.parse(postImageUri));
-        }
-
         // 채팅하기 버튼 클릭 이벤트
         btnChatWithAuthor.setOnClickListener(v -> {
             Intent chatIntent = new Intent(PostDetailActivity.this, ChatActivity.class);
             chatIntent.putExtra("chatPartner", postAuthor); // 작성자 이름 전달
             startActivity(chatIntent);
         });
+
+        // 서버에서 이미지 가져오기
+        new Thread(() -> fetchImageFromServer("/path/to/image.jpg")).start(); // 이미지 경로 지정
+    }
+
+    private void fetchImageFromServer(String imagePath) {
+        try (Socket socket = new Socket("172.30.1.23", 9999)) {
+            OutputStream outputStream = socket.getOutputStream();
+            InputStream inputStream = new BufferedInputStream(socket.getInputStream());
+
+            // 서버에 이미지 요청 보내기
+            outputStream.write(("GET_IMAGE " + imagePath + "\n").getBytes());
+            outputStream.flush();
+
+            // 서버로부터 이미지 데이터 수신
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            // UI에 이미지 표시
+            runOnUiThread(() -> ivPostDetailImage.setImageBitmap(bitmap));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }
